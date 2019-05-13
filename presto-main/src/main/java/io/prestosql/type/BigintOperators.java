@@ -273,7 +273,6 @@ public final class BigintOperators
     @SqlType("varchar(x)")
     public static Slice castToVarchar(@LiteralParameter("x") long x, @SqlType(StandardTypes.BIGINT) long value)
     {
-        // TODO: https://github.com/prestodb/presto/pull/9288
         Slice slice = utf8Slice(String.valueOf(value));
         return slice.length() > x ? slice.slice(0, (int) x) : slice;
     }
