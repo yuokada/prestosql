@@ -23,6 +23,7 @@ import static io.prestosql.spi.type.BooleanType.BOOLEAN;
 import static io.prestosql.spi.type.DoubleType.DOUBLE;
 import static io.prestosql.spi.type.RealType.REAL;
 import static io.prestosql.spi.type.VarcharType.VARCHAR;
+import static io.prestosql.spi.type.VarcharType.createVarcharType;
 import static java.lang.Double.doubleToLongBits;
 import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.isNaN;
@@ -178,6 +179,7 @@ public class TestDoubleOperators
     {
         assertFunction("cast(37.7E0 as varchar)", VARCHAR, "37.7");
         assertFunction("cast(17.1E0 as varchar)", VARCHAR, "17.1");
+        assertFunction("cast(17.1E0 as varchar(3))", createVarcharType(3), "17.");
     }
 
     @Test

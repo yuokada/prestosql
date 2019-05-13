@@ -22,6 +22,7 @@ import static io.prestosql.spi.type.BooleanType.BOOLEAN;
 import static io.prestosql.spi.type.DoubleType.DOUBLE;
 import static io.prestosql.spi.type.RealType.REAL;
 import static io.prestosql.spi.type.VarcharType.VARCHAR;
+import static io.prestosql.spi.type.VarcharType.createVarcharType;
 import static java.lang.String.format;
 
 public class TestBigintOperators
@@ -190,6 +191,8 @@ public class TestBigintOperators
     {
         assertFunction("cast(37 as varchar)", VARCHAR, "37");
         assertFunction("cast(100000000017 as varchar)", VARCHAR, "100000000017");
+        assertFunction("cast(bigint '12345678' as varchar(2))", createVarcharType(2), "12");
+        assertFunction("cast(bigint '12345678' as varchar(2)) = '12'", BOOLEAN, true);
     }
 
     @Test

@@ -22,6 +22,7 @@ import io.prestosql.spi.block.Block;
 import io.prestosql.spi.function.BlockIndex;
 import io.prestosql.spi.function.BlockPosition;
 import io.prestosql.spi.function.IsNull;
+import io.prestosql.spi.function.LiteralParameter;
 import io.prestosql.spi.function.LiteralParameters;
 import io.prestosql.spi.function.ScalarOperator;
 import io.prestosql.spi.function.SqlNullable;
@@ -239,10 +240,10 @@ public final class IntegerOperators
     @ScalarOperator(CAST)
     @LiteralParameters("x")
     @SqlType("varchar(x)")
-    public static Slice castToVarchar(@SqlType(StandardTypes.INTEGER) long value)
+    public static Slice castToVarchar(@LiteralParameter("x") long x, @SqlType(StandardTypes.INTEGER) long value)
     {
-        // todo optimize me
-        return utf8Slice(String.valueOf(value));
+        Slice slice = utf8Slice(String.valueOf(value));
+        return slice.length() > x ? slice.slice(0, (int) x) : slice;
     }
 
     @ScalarOperator(HASH_CODE)

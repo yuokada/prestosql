@@ -36,6 +36,7 @@ import io.prestosql.spi.type.RowType;
 import io.prestosql.spi.type.RowType.Field;
 import io.prestosql.spi.type.StandardTypes;
 import io.prestosql.spi.type.Type;
+import io.prestosql.spi.type.VarcharType;
 import io.prestosql.type.BigintOperators;
 import io.prestosql.type.BooleanOperators;
 import io.prestosql.type.DoubleOperators;
@@ -629,7 +630,7 @@ public final class JsonUtil
                 return Slices.utf8Slice(parser.getText());
             case VALUE_NUMBER_FLOAT:
                 // Avoidance of loss of precision does not seem to be possible here because of Jackson implementation.
-                return DoubleOperators.castToVarchar(parser.getDoubleValue());
+                return DoubleOperators.castToVarchar(VarcharType.MAX_LENGTH, parser.getDoubleValue());
             case VALUE_NUMBER_INT:
                 // An alternative is calling getLongValue and then BigintOperators.castToVarchar.
                 // It doesn't work as well because it can result in overflow and underflow exceptions for large integral numbers.

@@ -27,6 +27,7 @@ import static io.prestosql.spi.type.RealType.REAL;
 import static io.prestosql.spi.type.SmallintType.SMALLINT;
 import static io.prestosql.spi.type.TinyintType.TINYINT;
 import static io.prestosql.spi.type.VarcharType.VARCHAR;
+import static io.prestosql.spi.type.VarcharType.createVarcharType;
 import static java.lang.String.format;
 
 public class TestIntegerOperators
@@ -210,6 +211,7 @@ public class TestIntegerOperators
     {
         assertFunction("cast(INTEGER'37' as varchar)", VARCHAR, "37");
         assertFunction("cast(INTEGER'17' as varchar)", VARCHAR, "17");
+        assertFunction("cast(INTEGER'173' as varchar(2))", createVarcharType(2), "17");
     }
 
     @Test
