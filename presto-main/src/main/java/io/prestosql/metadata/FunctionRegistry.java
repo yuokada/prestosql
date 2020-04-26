@@ -157,6 +157,7 @@ import io.prestosql.operator.window.RowNumberFunction;
 import io.prestosql.operator.window.SqlWindowFunction;
 import io.prestosql.operator.window.WindowFunctionSupplier;
 import io.prestosql.spi.PrestoException;
+import io.prestosql.spi.type.TypeSignature;
 import io.prestosql.sql.DynamicFilters;
 import io.prestosql.sql.analyzer.FeaturesConfig;
 import io.prestosql.sql.tree.QualifiedName;
@@ -614,6 +615,7 @@ public class FunctionRegistry
         for (SqlFunction function : functions) {
             FunctionMetadata functionMetadata = function.getFunctionMetadata();
             checkArgument(!functionMetadata.getSignature().getName().contains("|"), "Function name cannot contain '|' character: %s", functionMetadata.getSignature());
+            checkArgument(!functionMetadata.getSignature().getArgumentTypes().contains(new TypeSignature("int")), "Function arguments should use a canonical name integer of int", functionMetadata.getSignature());
             for (FunctionMetadata existingFunction : this.functions.list()) {
                 checkArgument(!functionMetadata.getFunctionId().equals(existingFunction.getFunctionId()), "Function already registered: %s", functionMetadata.getFunctionId());
                 checkArgument(!functionMetadata.getSignature().equals(existingFunction.getSignature()), "Function already registered: %s", functionMetadata.getSignature());
